@@ -11,12 +11,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fedorov.andrii.andriiovych.currencyconverter.MainViewModel
+import com.fedorov.andrii.andriiovych.currencyconverter.data.Currency
 
 @Composable
-fun MainScreen(modifier: Modifier) {
-    val currencyState = remember {
-        mutableStateOf("")
-    }
+fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel) {
     Scaffold() {
         Box(
             modifier = modifier
@@ -25,48 +24,88 @@ fun MainScreen(modifier: Modifier) {
         ) {
             Column(modifier = modifier.fillMaxSize()) {
                 MainCard(
-                    changedTextField = {},
                     modifier = Modifier.weight(0.2f),
-                    currencyState = currencyState
+                    currencyMainState = mainViewModel.mainCurrencyState,
                 )
-                MainCard(
-                    changedTextField = {},
+                AnotherCard(
                     modifier = Modifier.weight(0.2f),
-                    currencyState = currencyState
+                    currencyMainState = mainViewModel.mainCurrencyState,
+                    currencyAnotherState = mainViewModel.anotherCurrencyState,
+
                 )
-                Calculate(modifier = Modifier.weight(0.6f), currencyState)
+                Calculate(modifier = Modifier.weight(0.6f),currencyState = mainViewModel.mainCurrencyState)
             }
         }
     }
 }
 
 @Composable
-fun MainCard(modifier: Modifier, changedTextField: (String) -> Unit, currencyState: State<String>) {
+fun MainCard(
+    modifier: Modifier,
+    currencyMainState: State<Currency>,
+) {
     Card(backgroundColor = Color.Blue, modifier = modifier, elevation = 6.dp) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier.fillMaxWidth()) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "USD",
+                text = currencyMainState.value.name,
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Bold, color = Color.White,
-                modifier = modifier.padding(start = 16.dp, end = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 8.dp)
             )
             Text(
-                text = "US Dollar",
-                fontSize = 24.sp, color = Color.White, modifier = modifier.padding(end = 16.dp)
+                text = currencyMainState.value.description,
+                fontSize = 24.sp, color = Color.White, modifier = Modifier.padding(end = 8.dp)
             )
             Text(
-                text = "$",
-                modifier = modifier.weight(1f),
+                modifier = Modifier.weight(1f),
+                text = currencyMainState.value.currencySign,
                 color = Color.White,
-                textAlign = TextAlign.End,
-                fontSize = 20.sp
+                fontSize = 24.sp,
+                        textAlign = TextAlign.End,
             )
 
             Text(
-                modifier = modifier
+                modifier = Modifier
                     .padding(start = 4.dp, end = 16.dp, top = 16.dp, bottom = 16.dp)
-                    .widthIn(min = 1.dp),
-                text = currencyState.value, color = Color.White, fontSize = 24.sp
+                    , maxLines = 1,
+                textAlign = TextAlign.End,
+                text = currencyMainState.value.count, color = Color.White, fontSize = 24.sp , fontWeight = FontWeight.Bold
+            )
+
+        }
+    }
+}
+@Composable
+fun AnotherCard(
+    modifier: Modifier,
+    currencyMainState: State<Currency>,
+    currencyAnotherState: State<Currency>,
+) {
+    Card(backgroundColor = Color.Blue, modifier = modifier, elevation = 6.dp) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = currencyAnotherState.value.name,
+                fontSize = 34.sp,
+                fontWeight = FontWeight.Bold, color = Color.White,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            )
+            Text(
+                text = currencyAnotherState.value.description,
+                fontSize = 24.sp, color = Color.White, modifier = Modifier.padding(end = 16.dp)
+            )
+            Text(
+                text = currencyAnotherState.value.currencySign,
+                modifier = Modifier.weight(1f),
+                color = Color.White,
+                textAlign = TextAlign.End,
+                fontSize = 24.sp
+            )
+
+            Text(
+                modifier = Modifier
+                    .padding(start = 4.dp, end = 16.dp, top = 16.dp, bottom = 16.dp)
+                    .wrapContentWidth(), maxLines = 1,
+                text = validateExit(currencyMainState.value.count,currencyAnotherState.value.course), color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold
             )
 
         }
@@ -74,7 +113,7 @@ fun MainCard(modifier: Modifier, changedTextField: (String) -> Unit, currencySta
 }
 
 @Composable
-fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
+fun Calculate(modifier: Modifier, currencyState: MutableState<Currency>) {
     Column(modifier = modifier) {
         Row(
             Modifier
@@ -82,7 +121,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 .weight(0.25f)
         ) {
             Button(
-                onClick = { currencyState.value += "7" }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,7)) }, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -91,7 +130,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = "7", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { currencyState.value += "8"  }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,8)) }, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -100,7 +139,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = "8", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { currencyState.value += "9"  }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,9))}, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -124,7 +163,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 .weight(0.25f)
         ) {
             Button(
-                onClick = { currencyState.value += "4"  }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,4))}, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -133,7 +172,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = "4", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { currencyState.value += "5"  }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,5)) }, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -142,7 +181,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = "5", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { currencyState.value += "6"  }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,6)) }, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -151,7 +190,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = "6", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = {  }, modifier = modifier
+                onClick = { }, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -166,7 +205,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 .weight(0.25f)
         ) {
             Button(
-                onClick = { currencyState.value += "1" }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,1)) }, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -175,7 +214,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = "1", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { currencyState.value += "2"}, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,2))}, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -184,7 +223,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = "2", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { currencyState.value += "3" }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,3)) }, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -193,7 +232,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = "3", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { currencyState.value += "3"  }, modifier = modifier
+                onClick = { currencyState.value.count += "3" }, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -208,7 +247,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 .weight(0.25f)
         ) {
             Button(
-                onClick = { currencyState.value += "." }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,-1))}, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -217,7 +256,7 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = ".", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { currencyState.value += "0"  }, modifier = modifier
+                onClick = { currencyState.value = currencyState.value.copy(count = validateEnter(currencyState.value.count,0)) }, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
@@ -226,9 +265,12 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
                 Text(text = "0", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { currencyState.value = currencyState.value.dropLast(1)  }, modifier = modifier
+                onClick = {
+                    currencyState.value = currencyState.value.copy(count = if (currencyState.value.count.length == 1) "0" else currencyState.value.count.dropLast(1))
+                }, modifier = modifier
                     .fillMaxHeight()
-                    .weight(0.25f), colors = ButtonDefaults.buttonColors(
+                    .weight(0.25f)
+                , colors = ButtonDefaults.buttonColors(
                     Color.White
                 )
             ) {
@@ -245,4 +287,19 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<String>) {
             }
         }
     }
+}
+
+fun validateEnter(string: String, int: Int):String {
+    return when {
+        string.contains(".")&& int == -1 -> string
+        int == -1 -> "$string."
+        string.contains(".0")&& int == 0 && string.last() == '0'-> string
+        string.isNotEmpty() && string.toDouble() == 0.0 -> int.toString()
+        else -> "$string$int"
+    }
+}
+fun validateExit(mainValue: String,anotherCourse:Double):String {
+    val result = if (mainValue.toDouble() != 0.0) mainValue.toDouble() * anotherCourse else 0.0
+    if (result == 0.0) return "0"
+    return String.format("%.2f",result)
 }
