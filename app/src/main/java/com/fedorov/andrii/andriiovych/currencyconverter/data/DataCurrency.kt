@@ -1,5 +1,23 @@
 package com.fedorov.andrii.andriiovych.currencyconverter.data
 
+import kotlin.properties.Delegates
+
+
+abstract class Currency {
+    open lateinit var name: String
+    open lateinit var description: String
+    open var course by Delegates.notNull<Double>()
+    open lateinit var currencySign: String
+    open lateinit var count: String
+}
+
+data class MainCurrency(
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class DataCurrency(
     val cHF: CHFCurrency,
@@ -40,297 +58,297 @@ data class DataCurrency(
 
 data class CZKCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class PLNCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class PHPCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class BRLCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class CHFCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class TRYCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class RONCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class MXNCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class ZARCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class KRWCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class SGDCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class JPYCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class NZDCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class GBPCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class IDRCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class EURCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class CADCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class DKKCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class MYRCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class BGNCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class HKDCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class USDCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class NOKCurrency(
 
-val name: String,
-val description: String,
-val course: Double,
-val currencySign: String,
-var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class INRCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class SEKCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class CNYCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class THBCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class HUFCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class RUBCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class ILSCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class AUDCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class ISKCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()
 
 data class HRKCurrency(
 
-    val name: String,
-    val description: String,
-    val course: Double,
-    val currencySign: String,
-    var count: String
-)
+    override var name: String,
+    override var description: String,
+    override var course: Double,
+    override var currencySign: String,
+    override var count: String
+) : Currency()

@@ -1,6 +1,5 @@
 package com.fedorov.andrii.andriiovych.currencyconverter.api
 
-import android.util.Log
 import com.fedorov.andrii.andriiovych.currencyconverter.data.*
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
@@ -11,7 +10,16 @@ class OkHttpClient {
     private val client = OkHttpClient()
     private val gson = Gson()
 
-    fun getCurrencies(): CurrencyResponse? {
+    fun getDataCurrency(currency: String = ""): DataCurrency? {
+        val currencies = getCurrencies()
+        val value = getValueCurrencies(currency)
+        if (currencies != null && value != null) {
+            return toDataCurrency(currencies, value)
+        }
+        return null
+    }
+
+    private fun getCurrencies(): CurrencyResponse? {
         val url =
             "https://api.freecurrencyapi.com/v1/currencies?apikey=t7XIAqj136BpGvf1zfL7hCjKbnkJbuzRSBA6oRBV&currencies="
         val request = Request.Builder()
@@ -34,7 +42,7 @@ class OkHttpClient {
         return null
     }
 
-    fun getValueCurrencies(currency: String = ""): CurrencyValueResponse? {
+    private fun getValueCurrencies(currency: String = ""): CurrencyValueResponse? {
         val url =
             "https://api.freecurrencyapi.com/v1/latest?apikey=t7XIAqj136BpGvf1zfL7hCjKbnkJbuzRSBA6oRBV&currencies=&base_currency=$currency"
         val request = Request.Builder()
@@ -56,7 +64,10 @@ class OkHttpClient {
         return null
     }
 
-    fun toDataCurrency(response: CurrencyResponse, value: CurrencyValueResponse): DataCurrency {
+    private fun toDataCurrency(
+        response: CurrencyResponse,
+        value: CurrencyValueResponse
+    ): DataCurrency {
         return DataCurrency(
             cAD = CADCurrency(
                 response.data.cAD.code,
