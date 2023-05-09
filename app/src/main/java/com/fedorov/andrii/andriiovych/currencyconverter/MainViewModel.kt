@@ -18,6 +18,12 @@ class MainViewModel(private val okHttpClient: OkHttpClient = OkHttpClient()):Vie
  init {
      getCurrencies()
  }
+
+ fun convertCurrencies(){
+  val first = anotherCurrencyState.value
+  anotherCurrencyState.value = mainCurrencyState.value
+  mainCurrencyState.value = first
+ }
  private fun getCurrencies() = viewModelScope.launch(Dispatchers.IO){
   val value = okHttpClient.getDataCurrency()
   mainCurrencyState.value = value?.pLN!!

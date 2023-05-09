@@ -7,11 +7,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fedorov.andrii.andriiovych.currencyconverter.MainViewModel
+import com.fedorov.andrii.andriiovych.currencyconverter.R
 import com.fedorov.andrii.andriiovych.currencyconverter.data.Currency
 import com.fedorov.andrii.andriiovych.currencyconverter.data.MainCurrency
 
@@ -36,7 +38,8 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel) {
                     )
                 Calculate(
                     modifier = Modifier.weight(0.6f),
-                    currencyState = mainViewModel.mainCurrencyState
+                    currencyState = mainViewModel.mainCurrencyState,
+                    onClickedConvert = { mainViewModel.convertCurrencies() }
                 )
             }
         }
@@ -124,7 +127,7 @@ fun AnotherCard(
 }
 
 @Composable
-fun Calculate(modifier: Modifier, currencyState: MutableState<Currency>) {
+fun Calculate(modifier: Modifier, currencyState: MutableState<Currency>,onClickedConvert:()->Unit) {
     Column(modifier = modifier) {
         Row(
             Modifier
@@ -192,13 +195,13 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<Currency>) {
                 Text(text = "9", fontSize = 32.sp, color = Color.Black)
             }
             Button(
-                onClick = { /*TODO*/ }, modifier = modifier
+                onClick = { onClickedConvert()}, modifier = modifier
                     .fillMaxHeight()
                     .weight(0.25f), colors = ButtonDefaults.buttonColors(
                     Color.White
                 )
             ) {
-                Text(text = "*", fontSize = 32.sp, color = Color.Black)
+                Icon(modifier = Modifier.height(32.dp).width(32.dp), painter = painterResource(id = R.drawable.icon_convert), contentDescription = "convert")
             }
         }
         Row(
