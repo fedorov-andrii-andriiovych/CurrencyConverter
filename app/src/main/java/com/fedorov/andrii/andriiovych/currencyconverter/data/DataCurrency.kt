@@ -53,7 +53,47 @@ data class DataCurrency(
     val sEK: SEKCurrency,
     val nZD: NZDCurrency,
     val bRL: BRLCurrency
-)
+) {
+
+    fun toListCurrency(): List<Currency> {
+        return listOf(
+            cHF,
+            hRK,
+            mXN,
+            zAR,
+            iNR,
+            cNY,
+            tHB,
+            aUD,
+            iLS,
+            kRW,
+            jPY,
+            pLN,
+            gBP,
+            iDR,
+            hUF,
+            pHP,
+            tRY,
+            rUB,
+            iSK,
+            hKD,
+            eUR,
+            dKK,
+            uSD,
+            cAD,
+            mYR,
+            bGN,
+            nOK,
+            rON,
+            sGD,
+            cZK,
+            sEK,
+            nZD,
+            bRL
+        )
+
+    }
+}
 
 
 data class CZKCurrency(
