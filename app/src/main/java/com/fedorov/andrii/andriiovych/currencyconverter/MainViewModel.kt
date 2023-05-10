@@ -14,28 +14,74 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val okHttpClient: OkHttpClient = OkHttpClient()) : ViewModel() {
-    val screen = mutableStateOf(Screens.FIND)
+    val screen = mutableStateOf(Screens.MAIN)
     val mainCurrencyState = mutableStateOf<Currency>(USDCurrency("USD", "US Dollar", 1.0, "$", "0"))
     val anotherCurrencyState = mutableStateOf<Currency>(EURCurrency("EUR", "Euro", 0.86, "€", "0"))
     var allCurrencies = mutableStateOf<List<Currency>>(emptyList())
+    var current = Current.MAIN
+    lateinit var value:DataCurrency
 
     init {
-        getCurrencies()
+        getCurrencies("")
     }
 
     fun convertCurrencies() {
-        val first = anotherCurrencyState.value
-        anotherCurrencyState.value = mainCurrencyState.value
-        mainCurrencyState.value = first
+        val main = anotherCurrencyState.value
+        val another = mainCurrencyState.value
+        main.count = another.count
+        another.count = "0"
+        anotherCurrencyState.value = another
+        mainCurrencyState.value = main
+        current = Current.MAIN
+        getCurrencies(main.name)
     }
 
-    private fun getCurrencies() = viewModelScope.launch(Dispatchers.IO) {
-        val value = okHttpClient.getDataCurrency()
-        value?.let { allCurrencies.value = value.toListCurrency() }
-
-    }
+     fun getCurrencies(name:String = "USD") = viewModelScope.launch(Dispatchers.IO) {
+         if (current == Current.MAIN){
+             value = okHttpClient.getDataCurrency(name)!!
+         }
+        value.let {
+            val list = value.toListCurrency()
+            allCurrencies.value = list
+            if(current == Current.MAIN){
+                list.forEach {
+                    if (it.name == name) {
+                        it.count =  mainCurrencyState.value.count
+                        Log.d("TAGGG",it.toString())
+                        mainCurrencyState.value = it
+                    }
+                }
+            }else{
+                list.forEach {
+                    if (it.name == mainCurrencyState.value.name) {
+                        it.count =  mainCurrencyState.value.count
+                        mainCurrencyState.value = it
+                    }
+                }
+            }
+            if(current == Current.ANOTHER){
+                list.forEach {
+                    if (it.name == name) {
+                        it.count =  anotherCurrencyState.value.count
+                        anotherCurrencyState.value = it
+                    }
+                }
+            }else{
+                list.forEach {
+                    if (it.name == anotherCurrencyState.value.name) {
+                        it.count =  anotherCurrencyState.value.count
+                        anotherCurrencyState.value = it
+                    }
+                }
+            }
+        }
+     }
 }
 
+enum class Current{
+    MAIN,
+    ANOTHER
+}
 enum class Screens {
     MAIN,
     FIND

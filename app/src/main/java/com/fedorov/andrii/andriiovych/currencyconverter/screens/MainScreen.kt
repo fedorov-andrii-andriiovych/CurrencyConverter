@@ -1,6 +1,7 @@
 package com.fedorov.andrii.andriiovych.currencyconverter.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -12,8 +13,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fedorov.andrii.andriiovych.currencyconverter.Current
 import com.fedorov.andrii.andriiovych.currencyconverter.MainViewModel
 import com.fedorov.andrii.andriiovych.currencyconverter.R
+import com.fedorov.andrii.andriiovych.currencyconverter.Screens
 import com.fedorov.andrii.andriiovych.currencyconverter.data.Currency
 import com.fedorov.andrii.andriiovych.currencyconverter.data.MainCurrency
 
@@ -23,17 +26,25 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel) {
         Box(
             modifier = modifier
                 .padding(it)
-                .background(Color.Gray)
+                .background(Color.White)
         ) {
             Column(modifier = modifier.fillMaxSize()) {
                 MainCard(
                     modifier = Modifier.weight(0.2f),
                     currencyMainState = mainViewModel.mainCurrencyState,
+                    onCardClicked = {
+                        mainViewModel.screen.value = Screens.FIND
+                        mainViewModel.current = Current.MAIN
+                    }
                 )
                 AnotherCard(
                     modifier = Modifier.weight(0.2f),
                     currencyMainState = mainViewModel.mainCurrencyState,
                     currencyAnotherState = mainViewModel.anotherCurrencyState,
+                    onCardClicked = {
+                        mainViewModel.screen.value = Screens.FIND
+                        mainViewModel.current = Current.ANOTHER
+                    }
 
                     )
                 Calculate(
@@ -50,18 +61,15 @@ fun MainScreen(modifier: Modifier, mainViewModel: MainViewModel) {
 fun MainCard(
     modifier: Modifier,
     currencyMainState: State<Currency>,
+    onCardClicked:()->Unit
 ) {
-    Card(backgroundColor = Color.Blue, modifier = modifier, elevation = 6.dp) {
+    Card(backgroundColor = Color.Blue, modifier = modifier.clickable { onCardClicked() }, elevation = 6.dp) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = currencyMainState.value.name,
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Bold, color = Color.White,
                 modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-            )
-            Text(
-                text = currencyMainState.value.description,
-                fontSize = 24.sp, color = Color.White, modifier = Modifier.padding(end = 8.dp)
             )
             Text(
                 modifier = Modifier.weight(1f),
@@ -91,18 +99,15 @@ fun AnotherCard(
     modifier: Modifier,
     currencyMainState: State<Currency>,
     currencyAnotherState: State<Currency>,
+    onCardClicked:()->Unit
 ) {
-    Card(backgroundColor = Color.Blue, modifier = modifier, elevation = 6.dp) {
+    Card(backgroundColor = Color.Blue, modifier = modifier.clickable { onCardClicked() }, elevation = 6.dp) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = currencyAnotherState.value.name,
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Bold, color = Color.White,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-            )
-            Text(
-                text = currencyAnotherState.value.description,
-                fontSize = 24.sp, color = Color.White, modifier = Modifier.padding(end = 16.dp)
             )
             Text(
                 text = currencyAnotherState.value.currencySign,
