@@ -71,8 +71,8 @@ fun MainCard(
                 fontWeight = FontWeight.Bold, color = Color.White,
                 modifier = Modifier.padding(start = 16.dp, end = 8.dp)
             )
+            Text(text = "",modifier = Modifier.weight(1f))
             Text(
-                modifier = Modifier.weight(1f),
                 text = currencyMainState.value.currencySign,
                 color = Color.White,
                 fontSize = 24.sp,
@@ -82,8 +82,7 @@ fun MainCard(
             Text(
                 modifier = Modifier
                     .padding(start = 4.dp, end = 16.dp, top = 16.dp, bottom = 16.dp),
-                maxLines = 1,
-                textAlign = TextAlign.End,
+                textAlign = TextAlign.End, maxLines = 3,
                 text = currencyMainState.value.count,
                 color = Color.White,
                 fontSize = 24.sp,
@@ -107,11 +106,11 @@ fun AnotherCard(
                 text = currencyAnotherState.value.name,
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Bold, color = Color.White,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 8.dp)
             )
+            Text(text = "",modifier = Modifier.weight(1f))
             Text(
                 text = currencyAnotherState.value.currencySign,
-                modifier = Modifier.weight(1f),
                 color = Color.White,
                 textAlign = TextAlign.End,
                 fontSize = 24.sp
@@ -120,7 +119,7 @@ fun AnotherCard(
             Text(
                 modifier = Modifier
                     .padding(start = 4.dp, end = 16.dp, top = 16.dp, bottom = 16.dp)
-                    .wrapContentWidth(), maxLines = 1,
+                    .wrapContentWidth(), maxLines = 3,
                 text = validateExit(
                     currencyMainState.value.count,
                     currencyAnotherState.value.course
@@ -206,7 +205,9 @@ fun Calculate(modifier: Modifier, currencyState: MutableState<Currency>,onClicke
                     Color.White
                 )
             ) {
-                Icon(modifier = Modifier.height(32.dp).width(32.dp), painter = painterResource(id = R.drawable.icon_convert), contentDescription = "convert")
+                Icon(modifier = Modifier
+                    .height(32.dp)
+                    .width(32.dp), painter = painterResource(id = R.drawable.icon_convert), contentDescription = "convert")
             }
         }
         Row(

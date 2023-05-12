@@ -47,7 +47,6 @@ class MainViewModel(private val okHttpClient: OkHttpClient = OkHttpClient()) : V
                 list.forEach {
                     if (it.name == name) {
                         it.count =  mainCurrencyState.value.count
-                        Log.d("TAGGG",it.toString())
                         mainCurrencyState.value = it
                     }
                 }
